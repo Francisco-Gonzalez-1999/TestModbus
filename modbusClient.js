@@ -1,6 +1,13 @@
 const ModbusRTU = require('modbus-serial');
 const client = new ModbusRTU();
 
+// Códigos de escape ANSI para colores
+const RESET = '\x1b[0m';
+const GREEN = '\x1b[32m';
+const BLUE = '\x1b[34m';
+const YELLOW = '\x1b[33m';
+const RED = '\x1b[31m';
+
 // Dirección IP del PLC y puerto Modbus TCP 
 // Por defecto es el 502 ???
 const plcAddress = '10.10.100.36';
@@ -29,7 +36,7 @@ async function readModbusData() {
 
     client.close();
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error(`${RED}Error:${YELLOW}`, err.message);
   }
 }
 
