@@ -1,0 +1,14 @@
+Error al leer los registros: Error: Modbus exception 3: Illegal data value (valu
+e cannot be written to this register)
+    at ModbusRTU._onReceive (F:\Aplicacion Web\TestModbus\node_modules\modbus-se
+rial\index.js:435:21)
+    at TcpPort.emit (node:events:518:28)
+    at Socket.<anonymous> (F:\Aplicacion Web\TestModbus\node_modules\modbus-seri
+al\ports\tcpport.js:122:22)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23) {
+  modbusCode: 3
+}

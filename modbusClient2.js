@@ -2,7 +2,8 @@ const ModbusRTU = require('modbus-serial');
 const client = new ModbusRTU();
 
 // Dirección IP del PLC y puerto Modbus TCP 
-const plcAddress = '10.10.106.241';
+// const plcAddress = '10.10.106.241';
+const plcAddress = '10.74.103.8';
 
 // Función para convertir un valor de 16 bits sin signo.... a un valor con signo
 // En valores de 16 bits, los numeros positivos (con signo) no requieren ninguna conversion
@@ -34,7 +35,7 @@ async function readRegisters() {
     try {
         // Aqui se leen los registros emitidos por el PLC mediante MODBUS
         // Por ejemplo, los registros del 40001 a 40016
-        const data = await client.readHoldingRegisters(0, 20);
+        const data = await client.readHoldingRegisters(0, 126);
         // Convertir los valores leídos a enteros con signo
         const signedData = data.data.map(toSigned16Bit);
         console.log(`Registros leídos desde ${plcAddress} MODBUS:`, signedData);
@@ -49,7 +50,7 @@ async function startReading() {
 
     setInterval(async () => {
         await readRegisters();
-    }, 8000); // 8000 ms, equivale a 8 segundos
+    }, 3000); // 8000 ms, equivale a 8 segundos
 }
 
 // Ejecutar la función de MODBUS startReading
