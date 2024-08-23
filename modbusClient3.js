@@ -5,7 +5,7 @@
 const ModbusRTU = require("modbus-serial");
 const client = new ModbusRTU();
 
-const plcAddress = '10.10.106.241';
+const plcAddress = '10.74.103.8';
 
 async function connect() {
     try {
@@ -18,13 +18,23 @@ async function connect() {
 async function readRegisters() {
     try {
         const data = await client.readHoldingRegisters(0,20);
+        const signedData = data.data.map(divideByOneHundred);
+        console.log(`Registros leídos desde ${plcAddress} MODBUS:`, signedData);
     } catch (error) {
-        
+        console.error('Error al leer los registros:', error);
     }
 }
 
-function toSigned16Bit(value) {
-    if (value >= 32768) {
-        
-    }
+function divideByOneHundred(value) {
+    return value / 100;
 }
+
+async function startReading() {
+    await connect();
+
+    setInterval(async () => {
+        await readRegisters();
+    }, 3000);
+}
+
+startReading();

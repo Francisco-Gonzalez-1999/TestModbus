@@ -12,13 +12,17 @@ const plcAddress = '10.74.103.8';
 
 // Este detalle adicional se presenta debido a que en Modbus, los datos se almacenan como valores enteros sin signo de 16 bits
 
-function toSigned16Bit(value) {
-    // int 	16	-32768 a 32767
-    // Si el valor es mayor o igual a 32768, es negativo en la representación de 16 bits con signo
-    if (value >= 32768) {
-        return value - 65536; // 65536 es 2^16
-    }
-    return value;
+// function toSigned16Bit(value) {
+//     // int 	16	-32768 a 32767
+//     // Si el valor es mayor o igual a 32768, es negativo en la representación de 16 bits con signo
+//     if (value >= 32768) {
+//         return value - 65536 / 100; // 65536 es 2^16
+//     }
+//     return value;
+// }
+
+function divideByOneHundred(value) {
+    return value / 100;
 }
 
 // Aqui se intenta conectar al PLC
@@ -37,7 +41,8 @@ async function readRegisters() {
         // Por ejemplo, los registros del 40001 a 40016
         const data = await client.readHoldingRegisters(0, 126);
         // Convertir los valores leídos a enteros con signo
-        const signedData = data.data.map(toSigned16Bit);
+        // const signedData = data.data.map(toSigned16Bit);
+        const signedData = data.data.map(divideByOneHundred);
         console.log(`Registros leídos desde ${plcAddress} MODBUS:`, signedData);
     } catch (error) {
         console.error('Error al leer los registros:', error);
